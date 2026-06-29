@@ -1,4 +1,4 @@
-const express = require('express');
+﻿const express = require('express');
 const session = require('express-session');
 const cors = require('cors');
 const { default: MongoStore } = require('connect-mongo');
@@ -12,7 +12,11 @@ const app = express();
 connectDB();
 
 app.use(express.json());
-app.use(express.static(path.join(__dirname, '..', 'Front')));
+app.use(express.static(path.join(__dirname, '..', 'frontend')));
+
+app.get('/', (req, res) => {
+  res.redirect('/login.html');
+});
 
 app.use(session({
   secret: process.env.SESSION_SECRET,
@@ -35,3 +39,4 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`სერვერი გაშვებულია პორტზე ${PORT}`);
 });
+
