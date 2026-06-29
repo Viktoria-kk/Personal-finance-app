@@ -1,0 +1,150 @@
+﻿/* ---------- Bottom nav (tablet / mobile) ---------- */
+.bottom-nav {
+  display: none;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 50;
+  background: var(--grey-900);
+  border-radius: 8px 8px 0 0;
+  padding: 0 16px;
+}
+.bottom-nav__item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 12px 0;
+  cursor: pointer;
+  background: none;
+  border: none;
+  border-bottom: 4px solid transparent;
+  color: var(--sidebar-muted);
+  text-decoration: none;
+}
+.bottom-nav__item svg {
+  width: 22px;
+  height: 22px;
+}
+.bottom-nav__item span {
+  font-size: 11px;
+  font-weight: 700;
+}
+.bottom-nav__item.is-active {
+  background: var(--beige-100);
+  border-radius: 8px 8px 0 0;
+  border-bottom-color: var(--green);
+  color: var(--green);
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media (max-width: 1199px) {
+  .sidebar {
+    display: none;
+  }
+  .bottom-nav {
+    display: flex;
+  }
+  .main {
+    padding: 32px 40px 120px;
+    max-width: none;
+  }
+  .logout-top {
+    display: inline-block;
+  }
+
+  .overview-grid {
+    grid-template-columns: 1fr;
+  }
+  .budgets-grid {
+    grid-template-columns: 1fr;
+  }
+  .bills-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 699px) {
+  .main {
+    padding: 24px 16px 110px;
+  }
+  .page-title {
+    font-size: 28px;
+  }
+  .balance-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .pots-inner {
+    flex-direction: column;
+    gap: 24px;
+  }
+  .budget-chart {
+    flex-direction: column;
+  }
+  .budget-legend {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .pots-grid {
+    grid-template-columns: 1fr;
+  }
+  .bottom-nav__item span {
+    display: none;
+  }
+  .card {
+    padding: 24px 20px;
+  }
+
+  /* transactions -> stacked */
+  .table-head {
+    display: none;
+  }
+  .table-row {
+    grid-template-columns: 1fr auto;
+  }
+  .table-row .cell {
+    display: none;
+  }
+  .table-row__who .sub {
+    display: block;
+  }
+  .table-row .cell--amt {
+    display: block;
+  }
+  .table-row .cell--amt .tx-date {
+    display: block;
+  }
+
+  /* bills -> stacked */
+  .bills-head {
+    display: none;
+  }
+  .bill-row {
+    grid-template-columns: 1fr auto;
+    grid-template-areas: "who amt" "due amt";
+    gap: 8px 12px;
+  }
+  .bill-row__who {
+    grid-area: who;
+  }
+  .bill-due {
+    grid-area: due;
+    justify-content: flex-start;
+  }
+  .bill-amt {
+    grid-area: amt;
+    align-self: center;
+  }
+
+  .auth__promo {
+    display: none;
+  }
+}
+

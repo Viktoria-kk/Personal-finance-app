@@ -1,0 +1,113 @@
+﻿/* ---------- Recurring page ---------- */
+.bills-grid {
+  display: grid;
+  grid-template-columns: 0.55fr 1.45fr;
+  gap: 24px;
+  align-items: start;
+}
+.total-bills {
+  background: var(--grey-900);
+  color: var(--white);
+  border-radius: var(--radius);
+  padding: 28px;
+}
+.total-bills__icon {
+  display: inline-flex;
+}
+.total-bills__label {
+  font-size: 14px;
+  color: #cfcac7;
+  margin-top: 36px;
+}
+.total-bills__value {
+  font-size: 32px;
+  font-weight: 700;
+  margin-top: 10px;
+}
+.summary-card h3 {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.summary-line {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px 0;
+  border-bottom: 1px solid #f2efeb;
+}
+.summary-line:last-child {
+  border-bottom: none;
+}
+.summary-line__label {
+  font-size: 13px;
+  color: var(--grey-500);
+}
+.summary-line__val {
+  font-size: 13px;
+  font-weight: 700;
+}
+.summary-line--due .summary-line__label,
+.summary-line--due .summary-line__val {
+  color: var(--red);
+}
+
+.bills-head {
+  display: grid;
+  grid-template-columns: 2.5fr 1.2fr 1fr;
+  padding: 0 0 12px;
+  border-bottom: 1px solid #f2efeb;
+}
+.bills-head span {
+  font-size: 12px;
+  color: var(--grey-500);
+}
+.bills-head .ta-right {
+  text-align: right;
+}
+.bill-row {
+  display: grid;
+  grid-template-columns: 2.5fr 1.2fr 1fr;
+  align-items: center;
+  padding: 16px 0;
+  border-bottom: 1px solid #f2efeb;
+}
+.bill-row:last-child {
+  border-bottom: none;
+}
+.bill-row__who {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.bill-row__who .avatar {
+  width: 36px;
+  height: 36px;
+  font-size: 12px;
+}
+.bill-row__who .name {
+  font-weight: 700;
+  font-size: 14px;
+}
+.bill-due {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.bill-due span {
+  font-size: 13px;
+}
+.bill-due--paid span {
+  color: var(--green);
+}
+.bill-due--soon span {
+  color: var(--red);
+}
+.bill-amt {
+  font-weight: 700;
+  font-size: 14px;
+  text-align: right;
+}
+.bill-amt--soon {
+  color: var(--red);
+}
+

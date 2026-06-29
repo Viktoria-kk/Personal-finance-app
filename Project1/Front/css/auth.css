@@ -1,0 +1,159 @@
+﻿/* ---------- Auth ---------- */
+/* ---------- Auth ---------- */
+.auth {
+  display: none;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.auth.is-active {
+  display: flex;
+}
+
+.auth__wrap {
+  display: flex;
+  width: 100%;
+  max-width: 1280px;
+  gap: 160px;
+  align-items: center; /* important: form will not stretch */
+  justify-content: center;
+}
+
+.auth__promo {
+  flex: 0 0 560px;
+  height: 920px;
+
+  background: var(--grey-900);
+  border-radius: var(--radius);
+  padding: 40px;
+
+  display: flex;
+  flex-direction: column;
+
+  background-image:
+    linear-gradient(rgba(32, 31, 36, 0.15), rgba(32, 31, 36, 0.15)),
+    url("../assets/images/auth-illustration.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.auth__promo .logo {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--white);
+  letter-spacing: -1px;
+}
+
+.auth__promo h2 {
+  margin-top: auto;
+  margin-bottom: 0;
+
+  font-size: 30px;
+  line-height: 1.2;
+  font-weight: 700;
+  color: var(--white);
+  max-width: 340px;
+}
+
+.auth__promo p {
+  margin: 18px 0 0;
+
+  font-size: 14px;
+  line-height: 1.6;
+  color: #cfcac7;
+  max-width: 360px;
+}
+.auth__promo h2,
+.auth__promo p {
+  max-width: none;
+  width: 100%;
+}
+
+.auth__form {
+  flex: 0 1 560px;
+  max-width: 560px;
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: 0 12px 40px rgba(32, 31, 36, 0.05);
+}
+.auth__form h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 32px;
+}
+.field {
+  margin-bottom: 18px;
+}
+.field label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--grey-500);
+  margin-bottom: 6px;
+  display: block;
+}
+.field input,
+.input {
+  width: 100%;
+  border: 1px solid var(--beige-500);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 14px;
+  color: var(--grey-900);
+}
+.field--pw {
+  position: relative;
+}
+.field--pw input {
+  padding-right: 44px;
+}
+.pw-toggle {
+  position: absolute;
+  right: 16px;
+  top: 34px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--grey-900);
+}
+.auth__switch {
+  margin-top: 26px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--grey-500);
+}
+.auth__switch button {
+  color: var(--grey-900);
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+  background: none;
+  border: none;
+  margin-left: 6px;
+}
+.auth__link {
+  color: var(--grey-900);
+  font-weight: 700;
+  text-decoration: underline;
+  margin-left: 6px;
+}
+.hint {
+  font-size: 11px;
+  color: var(--grey-500);
+  text-align: right;
+  margin-top: 6px;
+}
+.form-error {
+  color: var(--red);
+  font-size: 13px;
+  font-weight: 600;
+  margin-top: 8px;
+  min-height: 18px;
+}
+
