@@ -1,11 +1,10 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const requireAuth = require('../auth/auth.middleware');
-const { getBills, getBillsSummary } = require('./bill.controller');
+const { getBills, getBillsSummary } = require("./bill.controller");
+const isAuthMiddleware = require("../middlewares/is-auth.middleware");
 
-router.use(requireAuth);
-
-router.get('/summary', getBillsSummary);
-router.get('/', getBills);
+router.use(isAuthMiddleware);
+router.get("/summary", getBillsSummary);
+router.get("/", getBills);
 
 module.exports = router;

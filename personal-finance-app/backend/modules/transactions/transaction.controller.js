@@ -4,7 +4,7 @@ const getTransactions = async (req, res) => {
   try {
     const { page = 1, limit = 10, search, category, sort = 'latest' } = req.query;
 
-    const filter = { userId: req.session.userId };
+    const filter = { userId: req.userId };
 
     if (search) {
       filter.name = { $regex: search, $options: 'i' };
@@ -64,7 +64,7 @@ const createTransaction = async (req, res) => {
     }
 
     const transaction = await Transaction.create({
-      userId: req.session.userId,
+      userId: req.userId,
       name,
       category,
       date,

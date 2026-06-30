@@ -3,7 +3,7 @@ const Transaction = require("../transactions/transaction.model");
 
 const getBudgets = async (req, res) => {
   try {
-    const budgets = await Budget.find({ userId: req.session.userId });
+    const budgets = await Budget.find({ userId: req.userId });
 
     const now = new Date();
     const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
@@ -19,7 +19,7 @@ const getBudgets = async (req, res) => {
     const budgetsWithSpent = await Promise.all(
       budgets.map(async (budget) => {
         const transactions = await Transaction.find({
-          userId: req.session.userId,
+          userId: req.userId,
           category: budget.category,
           amount: { $lt: 0 },
           date: { $gte: startOfMonth, $lte: endOfMonth },
@@ -31,7 +31,7 @@ const getBudgets = async (req, res) => {
         );
 
         const latestSpending = await Transaction.find({
-          userId: req.session.userId,
+          userId: req.userId,
           category: budget.category,
           amount: { $lt: 0 },
         })
@@ -68,7 +68,7 @@ const createBudget = async (req, res) => {
     }
 
     const budget = await Budget.create({
-      userId: req.session.userId,
+      userId: req.userId,
       category,
       maximum,
       theme,
@@ -85,7 +85,7 @@ const updateBudget = async (req, res) => {
     const { category, maximum, theme } = req.body;
 
     const budget = await Budget.findOneAndUpdate(
-      { _id: req.params.id, userId: req.session.userId },
+      { _id: req.params.id, userId: req.userId },
       { category, maximum, theme },
       { new: true },
     );
@@ -104,7 +104,7 @@ const deleteBudget = async (req, res) => {
   try {
     const budget = await Budget.findOneAndDelete({
       _id: req.params.id,
-      userId: req.session.userId,
+      userId: req.userId,
     });
 
     if (!budget) {

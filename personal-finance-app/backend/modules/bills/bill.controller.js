@@ -2,7 +2,7 @@ const Bill = require('./bill.model');
 
 const getBillsSummary = async (req, res) => {
   try {
-    const bills = await Bill.find({ userId: req.session.userId });
+    const bills = await Bill.find({ userId: req.userId });
 
     const today = new Date().getDate();
 
@@ -38,7 +38,7 @@ const getBills = async (req, res) => {
   try {
     const { search, sort = 'latest' } = req.query;
 
-    const filter = { userId: req.session.userId };
+    const filter = { userId: req.userId };
 
     if (search) {
       filter.name = { $regex: search, $options: 'i' };

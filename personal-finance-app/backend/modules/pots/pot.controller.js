@@ -3,7 +3,7 @@ const User = require('../auth/auth.model');
 
 const getPots = async (req, res) => {
   try {
-    const pots = await Pot.find({ userId: req.session.userId });
+    const pots = await Pot.find({ userId: req.userId });
     res.json(pots);
   } catch (err) {
     res.status(500).json({ message: 'სერვერის შეცდომა' });
@@ -19,7 +19,7 @@ const createPot = async (req, res) => {
     }
 
     const pot = await Pot.create({
-      userId: req.session.userId,
+      userId: req.userId,
       name,
       target,
       saved: 0,
@@ -37,7 +37,7 @@ const updatePot = async (req, res) => {
     const { name, target, theme } = req.body;
 
     const pot = await Pot.findOneAndUpdate(
-      { _id: req.params.id, userId: req.session.userId },
+      { _id: req.params.id, userId: req.userId },
       { name, target, theme },
       { new: true }
     );
@@ -56,7 +56,7 @@ const deletePot = async (req, res) => {
   try {
     const pot = await Pot.findOneAndDelete({
       _id: req.params.id,
-      userId: req.session.userId
+      userId: req.userId
     });
 
     if (!pot) {
@@ -77,12 +77,15 @@ const addMoney = async (req, res) => {
       return res.status(400).json({ message: 'თანხა უნდა იყოს 0-ზე მეტი' });
     }
 
-    const user = await User.findOne({ userId: req.session.userId });
+    const user = await User.findById(req.userId);
+    if (!user) {
+      return res.status(404).json({ message: 'მომხმარებელი ვერ მოიძებნა' });
+    }
     if (amount > user.balance) {
       return res.status(400).json({ message: 'არასაკმარისი ბალანსი' });
     }
 
-    const pot = await Pot.findOne({ _id: req.params.id, userId: req.session.userId });
+    const pot = await Pot.findOne({ _id: req.params.id, userId: req.userId });
     if (!pot) {
       return res.status(404).json({ message: 'ქოთანი ვერ მოიძებნა' });
     }
@@ -107,7 +110,7 @@ const withdrawMoney = async (req, res) => {
       return res.status(400).json({ message: 'თანხა უნდა იყოს 0-ზე მეტი' });
     }
 
-    const pot = await Pot.findOne({ _id: req.params.id, userId: req.session.userId });
+    const pot = await Pot.findOne({ _id: req.params.id, userId: req.userId });
     if (!pot) {
       return res.status(404).json({ message: 'ქოთანი ვერ მოიძებნა' });
     }
@@ -116,7 +119,10 @@ const withdrawMoney = async (req, res) => {
       return res.status(400).json({ message: 'ქოთანში არასაკმარისი თანხაა' });
     }
 
-    const user = await User.findOne({ userId: req.session.userId });
+    const user = await User.findById(req.userId);
+    if (!user) {
+      return res.status(404).json({ message: 'მომხმარებელი ვერ მოიძებნა' });
+    }
 
     pot.saved -= amount;
     user.balance += amount;

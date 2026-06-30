@@ -1,9 +1,13 @@
-const express = require('express');
-const router = express.Router();
-const { signup, login, logout } = require('./auth.controller');
+const express = require("express");
+const authRouter = express.Router();
+const { signup, login, logout, currentUser } = require("./auth.controller");
+const validate = require("../middlewares/validate");
+const { signUpDto } = require("./dto/sign-up.dto");
+const { signInDto } = require("./dto/sign-in.dto");
+const isAuthMiddleware = require("../middlewares/is-auth.middleware");
 
-router.post('/signup', signup);
-router.post('/login', login);
-router.post('/logout', logout);
+authRouter.post("/signup", validate(signUpDto), signup);
+authRouter.post("/login", validate(signInDto), login);
+authRouter.get("/current-user", isAuthMiddleware, currentUser);
 
-module.exports = router;
+module.exports = authRouter;
