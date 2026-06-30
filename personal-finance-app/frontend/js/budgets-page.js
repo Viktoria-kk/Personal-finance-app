@@ -20,7 +20,9 @@
   var donutLimitEl = document.getElementById("bg-donut-limit");
 
   function themeValue(label) {
-    var normalized = String(label || "").toLowerCase().replace(/\s+/g, "");
+    var normalized = String(label || "")
+      .toLowerCase()
+      .replace(/\s+/g, "");
     return normalized === "armygreen" ? "army" : normalized;
   }
 
@@ -41,7 +43,13 @@
       gold: "Gold",
       orange: "Orange",
     };
-    return map[String(value || "").toLowerCase().replace(/\s+/g, "")] || "Green";
+    return (
+      map[
+        String(value || "")
+          .toLowerCase()
+          .replace(/\s+/g, "")
+      ] || "Green"
+    );
   }
 
   function load() {
@@ -76,7 +84,20 @@
           var dateStr =
             d.getDate() +
             " " +
-            ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][d.getMonth()] +
+            [
+              "Jan",
+              "Feb",
+              "Mar",
+              "Apr",
+              "May",
+              "Jun",
+              "Jul",
+              "Aug",
+              "Sep",
+              "Oct",
+              "Nov",
+              "Dec",
+            ][d.getMonth()] +
             " " +
             d.getFullYear();
           latestHtml +=
@@ -142,25 +163,33 @@
 
   load();
 
-  document.getElementById("btn-add-budget").addEventListener("click", function () {
-    var modal = document.getElementById("modal-add-budget");
-    var cat = modal.querySelector('[name="category"]').value;
-    var max = parseFloat(modal.querySelector('[name="maximum"]').value);
-    var theme = themeValue(modal.querySelector('[name="theme"]').value);
-    if (!cat || !max || !theme) return;
-    apiPost("/budgets", { category: cat, maximum: max, theme: theme }).then(function () {
-      load();
+  document
+    .getElementById("btn-add-budget")
+    .addEventListener("click", function () {
+      var modal = document.getElementById("modal-add-budget");
+      var cat = modal.querySelector('[name="category"]').value;
+      var max = parseFloat(modal.querySelector('[name="maximum"]').value);
+      var theme = themeValue(modal.querySelector('[name="theme"]').value);
+      if (!cat || !max || !theme) return;
+      apiPost("/budgets", { category: cat, maximum: max, theme: theme }).then(
+        function () {
+          load();
+        },
+      );
     });
-  });
 
   document.addEventListener("click", function (e) {
     var openEdit = e.target.closest('[data-open="modal-edit-budget"]');
     if (openEdit && openEdit.dataset.budgetId) {
       var modal = document.getElementById("modal-edit-budget");
       modal.dataset.budgetId = openEdit.dataset.budgetId;
-      modal.querySelector('[name="category"]').value = openEdit.dataset.budgetCat || "";
-      modal.querySelector('[name="maximum"]').value = openEdit.dataset.budgetMax || "";
-      modal.querySelector('[name="theme"]').value = themeLabel(openEdit.dataset.budgetTheme || "green");
+      modal.querySelector('[name="category"]').value =
+        openEdit.dataset.budgetCat || "";
+      modal.querySelector('[name="maximum"]').value =
+        openEdit.dataset.budgetMax || "";
+      modal.querySelector('[name="theme"]').value = themeLabel(
+        openEdit.dataset.budgetTheme || "green",
+      );
     }
 
     var editBtn = e.target.closest("#btn-edit-budget");
@@ -171,7 +200,11 @@
       var max = parseFloat(editModal.querySelector('[name="maximum"]').value);
       var theme = themeValue(editModal.querySelector('[name="theme"]').value);
       if (id && cat && max && theme) {
-        apiPut("/budgets/" + id, { category: cat, maximum: max, theme: theme }).then(function () {
+        apiPut("/budgets/" + id, {
+          category: cat,
+          maximum: max,
+          theme: theme,
+        }).then(function () {
           load();
         });
       }
@@ -179,7 +212,8 @@
 
     var delBtn = e.target.closest("#btn-delete-budget");
     if (delBtn) {
-      var deleteId = document.getElementById("modal-delete-budget").dataset.budgetId;
+      var deleteId = document.getElementById("modal-delete-budget").dataset
+        .budgetId;
       if (deleteId) {
         apiDelete("/budgets/" + deleteId).then(function () {
           load();
@@ -189,7 +223,8 @@
 
     var openDel = e.target.closest('[data-open="modal-delete-budget"]');
     if (openDel && openDel.dataset.budgetId) {
-      document.getElementById("modal-delete-budget").dataset.budgetId = openDel.dataset.budgetId;
+      document.getElementById("modal-delete-budget").dataset.budgetId =
+        openDel.dataset.budgetId;
     }
   });
 

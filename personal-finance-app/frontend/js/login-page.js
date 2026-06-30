@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (data._status >= 400) {
         errorEl.textContent = data.message;
       } else {
+        localStorage.setItem('accessToken', data.accessToken);
         window.location.href = 'overview.html';
       }
     });

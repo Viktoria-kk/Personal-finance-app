@@ -1,8 +1,17 @@
 var API = '/api';
 
+function authHeaders(headers) {
+  var token = localStorage.getItem('accessToken');
+  var result = headers || {};
+  if (token) {
+    result.Authorization = 'Bearer ' + token;
+  }
+  return result;
+}
+
 function apiGet(url) {
   return fetch(API + url, {
-    credentials: 'include'
+    headers: authHeaders()
   }).then(function (res) {
     if (res.status === 401) {
       window.location.href = 'login.html';
@@ -15,8 +24,7 @@ function apiGet(url) {
 function apiPost(url, data) {
   return fetch(API + url, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    credentials: 'include',
+    headers: authHeaders({ 'Content-Type': 'application/json' }),
     body: JSON.stringify(data)
   }).then(function (res) {
     if (res.status === 401) {
@@ -33,8 +41,7 @@ function apiPost(url, data) {
 function apiPut(url, data) {
   return fetch(API + url, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    credentials: 'include',
+    headers: authHeaders({ 'Content-Type': 'application/json' }),
     body: JSON.stringify(data)
   }).then(function (res) {
     return res.json();
@@ -44,16 +51,15 @@ function apiPut(url, data) {
 function apiDelete(url) {
   return fetch(API + url, {
     method: 'DELETE',
-    credentials: 'include'
+    headers: authHeaders()
   }).then(function (res) {
     return res.json();
   });
 }
 
 function logout() {
-  apiPost('/auth/logout', {}).then(function () {
-    window.location.href = 'login.html';
-  });
+  localStorage.removeItem('accessToken');
+  window.location.href = 'login.html';
 }
 
 function fmt(n) {
