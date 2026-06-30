@@ -4,13 +4,14 @@ const User = require("../auth/auth.model");
 
 const formatTransaction = (transaction, currentUserId) => {
   const item = transaction.toObject();
-  const isSender = item.senderId._id.toString() === currentUserId;
+  const senderId = item.senderId && (item.senderId._id || item.senderId);
+  const isSender = senderId && senderId.toString() === currentUserId;
   const otherUser = isSender ? item.receiverId : item.senderId;
 
   return {
     ...item,
-    name: otherUser.name,
-    avatar: otherUser.avatar,
+    name: otherUser && otherUser.name ? otherUser.name : "Unknown user",
+    avatar: otherUser && otherUser.avatar ? otherUser.avatar : "",
     type: isSender ? "sent" : "received",
     displayAmount: isSender ? -item.amount : item.amount,
   };

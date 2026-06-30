@@ -21,8 +21,24 @@ const userSchema = new mongoose.Schema({
   },
   avatar: {
     type: String,
-    required: true,
+    default: "",
   },
+  tokenVersion: {
+    type: Number,
+    default: 0,
+    select: false,
+  },
+});
+
+userSchema.pre("validate", function () {
+  if (!this.avatar && this.name) {
+    this.avatar = this.name
+      .trim()
+      .split(/\s+/)
+      .slice(0, 2)
+      .map((part) => part.charAt(0).toUpperCase())
+      .join("");
+  }
 });
 
 userSchema.pre("save", async function () {

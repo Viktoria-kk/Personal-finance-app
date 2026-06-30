@@ -71,7 +71,7 @@
           '<div class="summary-row"><div class="summary-row__left"><span class="bar-tag" style="background:var(' +
           color +
           ')"></span><span class="summary-row__name">' +
-          b.category +
+          escapeHtml(b.category) +
           '</span></div><div><span class="summary-row__spent">' +
           fmt(b.spent) +
           '</span><span class="summary-row__of">of ' +
@@ -102,11 +102,11 @@
             d.getFullYear();
           latestHtml +=
             '<div class="latest-row"><span class="avatar" style="background:var(' +
-            (t.color || color) +
+            safeTheme(t.color || color) +
             ')">' +
-            (t.avatar || "") +
+            escapeHtml(t.avatar || "") +
             '</span><div class="latest-row__name">' +
-            t.name +
+            escapeHtml(t.name) +
             '</div><div class="tx-row__right"><div class="latest-row__amt">-' +
             fmt(Math.abs(t.amount)) +
             '</div><div class="latest-row__date">' +
@@ -119,20 +119,20 @@
           '<div class="budget-card__head"><div class="budget-card__title"><span class="dot" style="background:var(' +
           color +
           ')"></span><h3>' +
-          b.category +
+          escapeHtml(b.category) +
           "</h3></div>" +
           '<div class="menu-wrap"><button class="kebab" data-menu>···</button><div class="menu"><button data-open="modal-edit-budget" data-budget-id="' +
-          b._id +
+          escapeAttr(b._id) +
           '" data-budget-cat="' +
-          b.category +
+          escapeAttr(b.category) +
           '" data-budget-max="' +
-          b.maximum +
+          escapeAttr(b.maximum) +
           '" data-budget-theme="' +
-          b.theme +
+          escapeAttr(b.theme) +
           '">Edit Budget</button><button class="danger" data-open="modal-delete-budget" data-name="' +
-          b.category +
+          escapeAttr(b.category) +
           '" data-budget-id="' +
-          b._id +
+          escapeAttr(b._id) +
           '">Delete Budget</button></div></div></div>' +
           '<div class="muted">Maximum of ' +
           fmt(b.maximum) +

@@ -1,4 +1,3 @@
-const { model } = require("mongoose");
 const userModel = require("./auth.model");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
@@ -15,7 +14,7 @@ exports.signUp = async ({ name, email, password }) => {
 };
 
 exports.signIn = async ({ email, password }) => {
-  const user = await userModel.findOne({ email });
+  const user = await userModel.findOne({ email }).select("+tokenVersion");
   if (!user) {
     return "INVALID_CREDENTIALS";
   }
@@ -27,9 +26,10 @@ exports.signIn = async ({ email, password }) => {
 
   const payLoad = {
     userId: user._id,
+    tokenVersion: user.tokenVersion || 0,
   };
 
-  const accessToken = await jwt.sign(payLoad, process.env.JWT_SECRET || process.env.SESSION_SECRET, {
+  const accessToken = await jwt.sign(payLoad, process.env.JWT_SECRET, {
     expiresIn: "1h",
   });
 
@@ -37,8 +37,10 @@ exports.signIn = async ({ email, password }) => {
 };
 
 exports.currentUser = async (userId) => {
-  const existsUser = await userModel.findById(userId);
+  const existsUser = await userModel.findById(userId).select("-password");
   return existsUser;
 };
 
-exports.logout = async () => true;
+exports.logout = async (userId) => {
+  return userModel.findByIdAndUpdate(userId, { $inc: { tokenVersion: 1 } });
+};

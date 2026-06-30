@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
         '<div class="pots-mini__item" style="border-color:var(' +
         (themeMap[p.theme] || "--green") +
         ')"><div class="pots-mini__name">' +
-        p.name +
+        escapeHtml(p.name) +
         '</div><div class="pots-mini__amt">' +
         fmt(p.saved) +
         "</div></div>";
@@ -66,11 +66,11 @@ document.addEventListener("DOMContentLoaded", function () {
         d.getFullYear();
       txHtml +=
         '<div class="tx-row"><span class="avatar" style="background:var(' +
-        (t.color || "--green") +
+        safeTheme(t.color || "--green") +
         ')">' +
-        (t.avatar || "") +
+        escapeHtml(t.avatar || "") +
         '</span><div class="tx-row__name">' +
-        t.name +
+        escapeHtml(t.name) +
         '</div><div class="tx-row__right"><div class="tx-amt' +
         pos +
         '">' +
@@ -93,7 +93,7 @@ document.addEventListener("DOMContentLoaded", function () {
         '<div class="legend-item" style="border-color:var(' +
         (themeMap[b.theme] || "--green") +
         ')"><div class="legend-item__name">' +
-        b.category +
+        escapeHtml(b.category) +
         '</div><div class="legend-item__val">' +
         fmt(b.maximum) +
         "</div></div>";

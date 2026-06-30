@@ -49,12 +49,21 @@ Then open:
 http://localhost:5000/login.html
 ```
 
-### Test Login
+## Demo Accounts
 
-```text
-Email: test@test.com
-Password: password123
-```
+You can use the following demo accounts to explore the application without creating a new user.
+
+> **Password for all accounts:** `password123`
+
+| Name          | Email                       |
+| ------------- | --------------------------- |
+| James Carter  | `james.carter@example.com`  |
+| Mia Thompson  | `mia.thompson@example.com`  |
+| Noah Wilson   | `noah.wilson@example.com`   |
+| Olivia Martin | `olivia.martin@example.com` |
+| Liam Anderson | `liam.anderson@example.com` |
+| Ava Mitchell  | `ava.mitchell@example.com`  |
+| Ethan Brooks  | `ethan.brooks@example.com`  |
 
 ### Note
 

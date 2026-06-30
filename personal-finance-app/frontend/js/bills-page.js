@@ -38,11 +38,11 @@
         html +=
           '<div class="bill-row">' +
           '<div class="bill-row__who"><span class="avatar" style="background:var(' +
-          (b.color || "--green") +
+          safeTheme(b.color || "--green") +
           ')">' +
-          (b.avatar || "") +
+          escapeHtml(b.avatar || "") +
           '</span><span class="name">' +
-          b.name +
+          escapeHtml(b.name) +
           "</span></div>" +
           '<div class="bill-due' +
           statusClass +

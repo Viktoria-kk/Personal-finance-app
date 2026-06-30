@@ -15,12 +15,10 @@ document.addEventListener("DOMContentLoaded", function () {
       email: email,
       password: password,
     }).then(function (data) {
-      if (data._status >= 400) {
-        errorEl.textContent = data.message;
-      } else {
         localStorage.setItem("accessToken", data.accessToken);
         window.location.href = "overview.html";
-      }
+    }).catch(function (error) {
+      errorEl.textContent = errorMessage(error);
     });
   });
 });

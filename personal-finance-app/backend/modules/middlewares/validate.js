@@ -11,7 +11,7 @@ module.exports =
     } catch (e) {
       if (e instanceof ZodError) {
         const errors = e.issues.map((issue) => ({
-          filed: issue.path.join("."),
+          field: issue.path.join("."),
           message: issue.message,
         }));
 
@@ -20,5 +20,7 @@ module.exports =
           errors,
         });
       }
+
+      next(e);
     }
   };

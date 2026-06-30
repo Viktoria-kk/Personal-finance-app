@@ -6,6 +6,7 @@ const Bill = require("../bills/bill.model");
 
 exports.getOverview = async (userId) => {
   const currentUserId = userId.toString();
+  const populatedId = (value) => value && (value._id || value);
 
   const user = await User.findById(userId).select("-password");
   if (!user) {
@@ -19,11 +20,17 @@ exports.getOverview = async (userId) => {
     .populate("receiverId", "name avatar");
 
   const income = transactions
-    .filter((t) => t.receiverId && t.receiverId._id.toString() === currentUserId)
+    .filter((t) => {
+      const id = populatedId(t.receiverId);
+      return id && id.toString() === currentUserId;
+    })
     .reduce((sum, t) => sum + Math.abs(t.amount), 0);
 
   const expenses = transactions
-    .filter((t) => t.senderId && t.senderId._id.toString() === currentUserId)
+    .filter((t) => {
+      const id = populatedId(t.senderId);
+      return id && id.toString() === currentUserId;
+    })
     .reduce((sum, t) => sum + Math.abs(t.amount), 0);
 
   const latestTransactions = transactions
@@ -32,13 +39,14 @@ exports.getOverview = async (userId) => {
     .slice(0, 5)
     .map((transaction) => {
       const item = transaction.toObject();
-      const isSender = item.senderId && item.senderId._id.toString() === currentUserId;
+      const senderId = populatedId(item.senderId);
+      const isSender = senderId && senderId.toString() === currentUserId;
       const otherUser = isSender ? item.receiverId : item.senderId;
 
       return {
         _id: item._id,
-        name: otherUser ? otherUser.name : "Unknown user",
-        avatar: otherUser ? otherUser.avatar : "",
+        name: otherUser && otherUser.name ? otherUser.name : "Unknown user",
+        avatar: otherUser && otherUser.avatar ? otherUser.avatar : "",
         amount: isSender ? -Math.abs(item.amount) : Math.abs(item.amount),
         category: item.category,
         date: item.date,

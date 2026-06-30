@@ -8,7 +8,7 @@ const isAuthMiddleware = require("../middlewares/is-auth.middleware");
 
 authRouter.post("/signup", validate(signUpDto), signup);
 authRouter.post("/login", validate(signInDto), login);
-authRouter.post("/logout", logout);
+authRouter.post("/logout", isAuthMiddleware, logout);
 authRouter.get("/current-user", isAuthMiddleware, currentUser);
 
 module.exports = authRouter;

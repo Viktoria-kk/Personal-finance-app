@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const isAuthMiddleware = require("../middlewares/is-auth.middleware");
+const validate = require("../middlewares/validate");
+const { potDto, moneyDto } = require("./pot.dto");
 const {
   getPots,
   createPot,
@@ -12,10 +14,10 @@ const {
 
 router.use(isAuthMiddleware);
 router.get("/", getPots);
-router.post("/", createPot);
-router.put("/:id", updatePot);
+router.post("/", validate(potDto), createPot);
+router.put("/:id", validate(potDto), updatePot);
 router.delete("/:id", deletePot);
-router.post("/:id/add", addMoney);
-router.post("/:id/withdraw", withdrawMoney);
+router.post("/:id/add", validate(moneyDto), addMoney);
+router.post("/:id/withdraw", validate(moneyDto), withdrawMoney);
 
 module.exports = router;

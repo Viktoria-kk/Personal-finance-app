@@ -16,14 +16,6 @@
   };
   var gridEl = document.getElementById("pots-grid");
 
-  function escapeAttr(value) {
-    return String(value || "")
-      .replace(/&/g, "&amp;")
-      .replace(/"/g, "&quot;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;");
-  }
-
   function themeValue(label) {
     var normalized = String(label || "")
       .toLowerCase()
@@ -62,7 +54,7 @@
       if (!data) return;
       var html = "";
       data.forEach(function (p) {
-        var color = themeMap[p.theme] || "--green";
+        var color = safeTheme(themeMap[p.theme] || "--green");
         var pct = p.target > 0 ? ((p.saved / p.target) * 100).toFixed(1) : 0;
 
         html +=
@@ -70,7 +62,7 @@
           '<div class="pot-head"><div class="budget-card__title"><span class="dot" style="background:var(' +
           color +
           ')"></span><h3>' +
-          p.name +
+          escapeHtml(p.name) +
           "</h3></div>" +
           '<div class="menu-wrap"><button class="kebab" data-menu>···</button><div class="menu"><button data-open="modal-edit-pot" data-pot-id="' +
           p._id +

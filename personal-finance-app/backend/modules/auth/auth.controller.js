@@ -58,7 +58,7 @@ const login = async (req, res) => {
 };
 
 const logout = async (req, res) => {
-  await authService.logout();
+  await authService.logout(req.userId);
 
   res.json({ message: "User logged out successfully" });
 };

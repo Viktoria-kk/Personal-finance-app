@@ -41,16 +41,16 @@ document.addEventListener("DOMContentLoaded", function () {
         html +=
           '<div class="table-row">' +
           '<div class="table-row__who"><span class="avatar" style="background:var(' +
-          (t.color || "--green") +
+          safeTheme(t.color || "--green") +
           ')">' +
-          (t.avatar || "") +
+          escapeHtml(t.avatar || "") +
           '</span><div><div class="name">' +
-          t.name +
+          escapeHtml(t.name) +
           '</div><div class="sub">' +
-          t.category +
+          escapeHtml(t.category) +
           "</div></div></div>" +
           '<div class="cell">' +
-          t.category +
+          escapeHtml(t.category) +
           "</div>" +
           '<div class="cell">' +
           dateStr +
@@ -116,13 +116,13 @@ document.addEventListener("DOMContentLoaded", function () {
     var btn = e.target.closest("[data-p]");
     if (!btn) return;
     var p = btn.dataset.p;
-    if (p === "prev" && state.page > 1) state.page--;
-    else if (
-      p === "next" &&
-      state.page < Number(paginationEl.dataset.totalPages)
-    ) {
-      state.page++;
-    } else state.page = Number(p);
+    if (p === "prev") {
+      if (state.page > 1) state.page--;
+    } else if (p === "next") {
+      if (state.page < Number(paginationEl.dataset.totalPages)) state.page++;
+    } else {
+      state.page = Number(p);
+    }
     load();
   });
 
