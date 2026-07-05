@@ -6,6 +6,7 @@ const potRouter = require("./modules/pots/pot.routes");
 const billRouter = require("./modules/bills/bill.routes");
 const overviewRouter = require("./modules/overview/overview.routes");
 const path = require("path");
+const multer = require("multer");
 require("dotenv").config();
 
 const connectDB = require("./config/db");
@@ -29,6 +30,12 @@ app.use("/api/bills", billRouter);
 app.use("/api/overview", overviewRouter);
 
 app.use((err, req, res, next) => {
+  if (err instanceof multer.MulterError && err.code === "LIMIT_FILE_SIZE") {
+    return res.status(400).json({ message: "Image must not exceed 2 MB" });
+  }
+  if (err && err.message === "Only JPEG, PNG, and WEBP images are allowed") {
+    return res.status(400).json({ message: err.message });
+  }
   console.error(err);
   res.status(500).json({ message: "Server error" });
 });

@@ -73,4 +73,53 @@ const currentUser = async (req, res) => {
   res.json(user);
 };
 
-module.exports = { signup, login, logout, currentUser };
+const updateProfileImage = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: "Profile image is required" });
+    }
+
+    const user = await authService.updateProfileImage(
+      req.userId,
+      req.file.buffer,
+    );
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json({
+      message: "Profile image updated successfully",
+      user,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Could not upload profile image" });
+  }
+};
+
+const deleteProfileImage = async (req, res) => {
+  try {
+    const user = await authService.deleteProfileImage(req.userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    if (user === "IMAGE_NOT_FOUND") {
+      return res.status(404).json({ message: "Profile image not found" });
+    }
+
+    res.json({
+      message: "Profile image deleted successfully",
+      user,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Could not delete profile image" });
+  }
+};
+
+module.exports = {
+  signup,
+  login,
+  logout,
+  currentUser,
+  updateProfileImage,
+  deleteProfileImage,
+};

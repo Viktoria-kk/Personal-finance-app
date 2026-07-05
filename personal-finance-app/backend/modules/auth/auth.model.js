@@ -25,6 +25,15 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: "",
   },
+  imageUrl: {
+    type: String,
+    default: null,
+  },
+  imagePublicId: {
+    type: String,
+    default: null,
+    select: false,
+  },
   tokenVersion: {
     type: Number,
     default: 0,

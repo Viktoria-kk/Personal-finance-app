@@ -1,5 +1,6 @@
 const userModel = require("./auth.model");
 const jwt = require("jsonwebtoken");
+const { uploadFile, deleteFile } = require("../../lib/cloudinary.lib");
 require("dotenv").config();
 
 exports.signUp = async ({ name, email, password }) => {
@@ -43,4 +44,53 @@ exports.currentUser = async (userId) => {
 
 exports.logout = async (userId) => {
   return userModel.findByIdAndUpdate(userId, { $inc: { tokenVersion: 1 } });
+};
+
+exports.updateProfileImage = async (userId, fileBuffer) => {
+  const user = await userModel
+    .findById(userId)
+    .select("+imagePublicId");
+  if (!user) {
+    return null;
+  }
+
+  const oldPublicId = user.imagePublicId;
+  const uploadedImage = await uploadFile(fileBuffer, "profile-images");
+
+  user.imageUrl = uploadedImage.url;
+  user.imagePublicId = uploadedImage.publicId;
+
+  try {
+    await user.save();
+  } catch (error) {
+    await deleteFile(uploadedImage.publicId);
+    throw error;
+  }
+
+  if (oldPublicId) {
+    await deleteFile(oldPublicId);
+  }
+
+  return userModel.findById(userId).select("-password");
+};
+
+exports.deleteProfileImage = async (userId) => {
+  const user = await userModel
+    .findById(userId)
+    .select("+imagePublicId");
+  if (!user) {
+    return null;
+  }
+
+  if (!user.imagePublicId) {
+    return "IMAGE_NOT_FOUND";
+  }
+
+  const oldPublicId = user.imagePublicId;
+  user.imageUrl = null;
+  user.imagePublicId = null;
+  await user.save();
+  await deleteFile(oldPublicId);
+
+  return userModel.findById(userId).select("-password");
 };

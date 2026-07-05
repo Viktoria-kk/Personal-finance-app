@@ -107,13 +107,15 @@
             <h1 class="page-title">Overview</h1>
             <div class="topbar__actions">
               <a href="#" class="logout-top" data-logout>Log out</a>
-              <span
+              <button
                 class="profile-avatar"
                 id="overview-profile-avatar"
                 aria-label="Current user"
+                data-open="modal-profile"
               >
-                ...
-              </span>
+                <img id="overview-profile-image" alt="" hidden />
+                <span id="overview-profile-initials">...</span>
+              </button>
             </div>
           </div>
 
@@ -297,6 +299,70 @@
         ><span>Recurring</span></a
       >
     </nav>
+
+    <div class="modal-overlay" id="modal-profile" data-overlay>
+      <div class="modal profile-modal">
+        <div class="modal__head">
+          <h2>My Profile</h2>
+          <button class="modal__close" data-close aria-label="Close">
+            <svg
+              width="28"
+              height="28"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <path d="m15 9-6 6M9 9l6 6" />
+            </svg>
+          </button>
+        </div>
+
+        <div class="profile-modal__identity">
+          <div class="profile-modal__avatar">
+            <img id="profile-modal-image" alt="Profile picture" hidden />
+            <span id="profile-modal-initials">...</span>
+          </div>
+          <div>
+            <h3 id="profile-modal-name">...</h3>
+            <p id="profile-modal-email">...</p>
+          </div>
+        </div>
+
+        <form id="profile-image-form">
+          <label for="profile-image-input">Profile picture</label>
+          <input
+            class="profile-file-input"
+            id="profile-image-input"
+            name="image"
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            required
+          />
+          <p class="profile-image-help">
+            JPEG, PNG, or WEBP. Maximum file size: 2 MB.
+          </p>
+          <p class="form-error profile-image-error" id="profile-image-error"></p>
+          <button
+            class="btn btn--dark btn--block"
+            id="btn-upload-profile-image"
+            type="submit"
+          >
+            Upload Picture
+          </button>
+        </form>
+
+        <button
+          class="btn btn--red btn--block profile-delete-button"
+          id="btn-delete-profile-image"
+          type="button"
+          hidden
+        >
+          Delete Picture
+        </button>
+      </div>
+    </div>
 
     <script src="js/api.js"></script>
     <script src="js/app.js"></script>
