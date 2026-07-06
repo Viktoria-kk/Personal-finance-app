@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
           '<div class="table-row__who"><span class="avatar" style="background:var(' +
           safeTheme(t.color || "--green") +
           ')">' +
-          escapeHtml(t.avatar || "") +
+          avatarContent(t.imageUrl, t.avatar) +
           '</span><div><div class="name">' +
           escapeHtml(t.name) +
           '</div><div class="sub">' +

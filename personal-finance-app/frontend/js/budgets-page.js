@@ -123,7 +123,7 @@
             '<div class="latest-row"><span class="avatar" style="background:var(' +
             safeTheme(t.color || color) +
             ')">' +
-            escapeHtml(t.avatar || "") +
+            avatarContent(t.imageUrl, t.avatar) +
             '</span><div class="latest-row__name">' +
             escapeHtml(t.name) +
             '</div><div class="tx-row__right"><div class="latest-row__amt">-' +

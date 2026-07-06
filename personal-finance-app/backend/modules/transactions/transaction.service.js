@@ -44,6 +44,10 @@ const formatTransaction = (transaction, currentUserId) => {
       : otherUser && otherUser.avatar
         ? otherUser.avatar
         : "",
+    imageUrl:
+      !isMerchant && otherUser && otherUser.imageUrl
+        ? otherUser.imageUrl
+        : null,
     type: isSender ? "sent" : "received",
     displayAmount: isSender ? -item.amount : item.amount,
     date: hasRecordedDate
@@ -66,8 +70,8 @@ exports.getTransactions = async ({ userId, query }) => {
   }
 
   let transactions = await Transaction.find(filter)
-    .populate("senderId", "name avatar")
-    .populate("receiverId", "name avatar");
+    .populate("senderId", "name avatar imageUrl")
+    .populate("receiverId", "name avatar imageUrl");
 
   transactions = transactions.map((transaction) =>
     formatTransaction(transaction, currentUserId),
@@ -222,8 +226,8 @@ exports.createTransaction = async ({
     });
 
     return Transaction.findById(transaction._id)
-      .populate("senderId", "name avatar balance")
-      .populate("receiverId", "name avatar balance");
+      .populate("senderId", "name avatar imageUrl balance")
+      .populate("receiverId", "name avatar imageUrl balance");
   } catch (err) {
     await User.findByIdAndUpdate(senderId, { $inc: { balance: numericAmount } });
     if (receiver) {

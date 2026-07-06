@@ -89,6 +89,14 @@ function escapeAttr(value) {
   return escapeHtml(value);
 }
 
+function avatarContent(imageUrl, initials) {
+  var url = String(imageUrl || '');
+  if (/^https:\/\//i.test(url)) {
+    return '<img src="' + escapeAttr(url) + '" alt="" loading="lazy">';
+  }
+  return escapeHtml(initials || '');
+}
+
 function safeTheme(value, fallback) {
   var allowed = [
     '--green', '--cyan', '--yellow', '--navy', '--red', '--purple',

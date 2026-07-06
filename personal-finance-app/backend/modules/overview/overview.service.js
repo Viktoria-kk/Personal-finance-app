@@ -17,8 +17,8 @@ exports.getOverview = async (userId) => {
   const transactions = await Transaction.find({
     $or: [{ senderId: userId }, { receiverId: userId }],
   })
-    .populate("senderId", "name avatar")
-    .populate("receiverId", "name avatar");
+    .populate("senderId", "name avatar imageUrl")
+    .populate("receiverId", "name avatar imageUrl");
 
   const income = transactions
     .filter((t) => {
@@ -65,6 +65,10 @@ exports.getOverview = async (userId) => {
           : otherUser && otherUser.avatar
             ? otherUser.avatar
             : "",
+        imageUrl:
+          !isMerchant && otherUser && otherUser.imageUrl
+            ? otherUser.imageUrl
+            : null,
         amount: isSender ? -Math.abs(item.amount) : Math.abs(item.amount),
         category: item.category,
         date: item.date,

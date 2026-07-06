@@ -193,7 +193,7 @@ document.addEventListener("DOMContentLoaded", function () {
         '<div class="tx-row"><span class="avatar" style="background:var(' +
         safeTheme(t.color || "--green") +
         ')">' +
-        escapeHtml(t.avatar || "") +
+        avatarContent(t.imageUrl, t.avatar) +
         '</span><div class="tx-row__name">' +
         escapeHtml(t.name) +
         '</div><div class="tx-row__right"><div class="tx-amt' +

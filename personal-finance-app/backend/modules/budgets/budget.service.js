@@ -23,7 +23,7 @@ exports.getBudgets = async (userId) => {
         category: budget.category,
         date: { $gte: startOfMonth, $lte: endOfMonth },
       })
-        .populate("receiverId", "name avatar")
+        .populate("receiverId", "name avatar imageUrl")
         .sort({ date: -1 });
 
       const spent = transactions.reduce((sum, t) => sum + Math.abs(t.amount), 0);
@@ -42,6 +42,10 @@ exports.getBudgets = async (userId) => {
             : transaction.receiverId
               ? transaction.receiverId.avatar
               : "",
+          imageUrl:
+            !isMerchant && transaction.receiverId
+              ? transaction.receiverId.imageUrl
+              : null,
           amount: -Math.abs(transaction.amount),
           category: transaction.category,
           date: transaction.date,
