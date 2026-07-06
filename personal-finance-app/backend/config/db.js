@@ -1,15 +1,15 @@
-const mongoose = require('mongoose');
-const dns = require('dns');
-require('dotenv').config();
+const mongoose = require("mongoose");
+const dns = require("dns");
+require("dotenv").config();
 
-dns.setDefaultResultOrder('ipv4first');
+dns.setDefaultResultOrder("ipv4first");
 
 const connectDB = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URL);
-    console.log('Connected to MongoDB');
+    console.log("Connected to MongoDB");
   } catch (err) {
-    console.error('MongoDB error:', err.message);
+    console.error("MongoDB error:", err.message);
     process.exit(1);
   }
 };
