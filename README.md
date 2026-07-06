@@ -1,6 +1,4 @@
-﻿# reEducate Projects
-
-## personal-finance-app
+# personal-finance-app
 
 This is a personal finance web application built with a separate backend and frontend structure.
 
